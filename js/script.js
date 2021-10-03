@@ -143,7 +143,7 @@ document.addEventListener('keydown', function (e) {
   }
 });
 
-const modalTimer = setTimeout(showModal, 50000000);
+// const modalTimer = setTimeout(showModal, 50000000);
 
 const showModalByScroll = function () {
   if (
@@ -176,3 +176,28 @@ window.addEventListener('scroll', showModalByScroll);
 //     showModal();
 //   });
 // }
+
+// Classes for cards
+class MenuCards {
+  constructor(src, alt, title, desc, price) {
+    this.src = src;
+    this.alt = alt;
+    this.title = title;
+    this.desc = desc;
+    this.price = price;
+    this.transfer = 27;
+    this.changeToUAH();
+  }
+
+  changeToUAH() {
+    return (this.price /= this.transfer);
+  }
+
+  render() {}
+}
+
+// const menuItem = document.querySelectorAll('.menu__item');
+// const titlee = document.querySelectorAll('.menu__item-subtitle');
+// const description = document.querySelectorAll('.menu__item-descr');
+// const moneyy = document.querySelectorAll('.menu__item-cost');
+// const pricee = document.querySelectorAll('.menu__item-total');
