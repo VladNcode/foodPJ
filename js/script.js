@@ -92,7 +92,7 @@ setClock('.timer', deadline);
 
 const modal = document.querySelector('.modal');
 const overlay = document.querySelector('.overlay');
-const modalClose = document.querySelector('.modal__close');
+// const modalClose = document.querySelector('.modal__close');
 const btnsOpenModal = document.querySelectorAll('[data-modal]');
 modal.classList.add('hide');
 
@@ -127,12 +127,12 @@ btnsOpenModal.forEach(btn => {
   });
 });
 
-modalClose.addEventListener('click', function () {
-  hideModal();
-});
+// modalClose.addEventListener('click', function () {
+//   hideModal();
+// });
 
 document.addEventListener('click', function (e) {
-  if (e.target === modal) {
+  if (e.target === modal || e.target.getAttribute('data-close') == '') {
     hideModal();
   }
 });
@@ -186,7 +186,7 @@ class MenuCard {
     this.desc = desc;
     this.price = price;
     this.classes = classes;
-    this.parentSelector = document.querySelector(parentSelector);
+    this.parent = document.querySelector(parentSelector);
     this.transfer = 27;
     this.changeToUAH();
   }
@@ -217,7 +217,7 @@ class MenuCard {
           </div>
         `;
 
-    this.parentSelector.append(element);
+    this.parent.append(element);
   }
 }
 
@@ -267,7 +267,7 @@ new MenuCard(
 const forms = document.querySelectorAll('form');
 
 const message = {
-  loading: 'Loaded!',
+  loading: 'img/form/spinner.svg',
   success: 'Thanks, we will contact you ASAP!',
   failure: 'Something went wrong!',
 };
@@ -280,10 +280,14 @@ function postData(form) {
   form.addEventListener('submit', function (e) {
     e.preventDefault();
 
-    const statusMessage = document.createElement('div');
-    statusMessage.classList.add('status');
-    statusMessage.textContent = message.loading;
-    form.append(statusMessage);
+    const statusMessage = document.createElement('img');
+    statusMessage.src = message.loading;
+    statusMessage.style.cssText = `
+    display: block;
+    margin: 0 auto;`;
+
+    // form.append(statusMessage);
+    form.insertAdjacentElement('afterend', statusMessage);
 
     const request = new XMLHttpRequest();
     request.open('POST', 'server.php');
@@ -304,14 +308,36 @@ function postData(form) {
     request.addEventListener('load', function () {
       if (request.status === 200) {
         console.log(request.response);
-        statusMessage.textContent = message.success;
+        showThanksModal(message.success);
         form.reset();
-        setTimeout(function () {
-          statusMessage.remove();
-        }, 2000);
+        statusMessage.remove();
       } else {
-        statusMessage.textContent = message.failure;
+        showThanksModal(message.failure);
       }
     });
   });
+}
+
+function showThanksModal(message) {
+  const prevModalDialog = document.querySelector('.modal__dialog');
+  prevModalDialog.classList.add('hide');
+  showModal();
+
+  const thanksModal = document.createElement('div');
+  thanksModal.classList.add('modal__dialog');
+
+  thanksModal.innerHTML = `
+  <div class="modal__content">
+    <div class="modal__close" data-close>&times;</div>
+    <div class="modal__title">${message}</div>
+  </div>
+  `;
+
+  document.querySelector('.modal').append(thanksModal);
+
+  setTimeout(function () {
+    thanksModal.remove();
+    prevModalDialog.classList.remove('hide');
+    hideModal();
+  }, 4000);
 }
