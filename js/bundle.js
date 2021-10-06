@@ -210,7 +210,11 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "forms": () => (/* binding */ forms)
 /* harmony export */ });
-const forms = function () {
+/* harmony import */ var _modal__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./modal */ "./js/modules/modal.js");
+
+
+
+const forms = function (modalTimer) {
   const forms = document.querySelectorAll('form');
 
   const message = {
@@ -262,7 +266,7 @@ const forms = function () {
   function showThanksModal(message) {
     const prevModalDialog = document.querySelector('.modal__dialog');
     prevModalDialog.classList.add('hide');
-    showModal();
+    (0,_modal__WEBPACK_IMPORTED_MODULE_0__.showModal)('.modal', '.overlay', modalTimer);
 
     const thanksModal = document.createElement('div');
     thanksModal.classList.add('modal__dialog');
@@ -279,7 +283,7 @@ const forms = function () {
     setTimeout(function () {
       thanksModal.remove();
       prevModalDialog.classList.remove('hide');
-      hideModal();
+      (0,_modal__WEBPACK_IMPORTED_MODULE_0__.hideModal)('.modal', '.overlay');
     }, 4000);
   }
 };
@@ -299,51 +303,61 @@ fetch('http://localhost:3000/menu')
 
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "showModal": () => (/* binding */ showModal),
+/* harmony export */   "hideModal": () => (/* binding */ hideModal),
 /* harmony export */   "modal": () => (/* binding */ modal)
 /* harmony export */ });
-const modal = function () {
-  const modal = document.querySelector('.modal');
-  const overlay = document.querySelector('.overlay');
+const showModal = function (modalSelector, overlaySelector, modalTimer) {
+  const modal = document.querySelector(modalSelector);
+  const overlay = document.querySelector(overlaySelector);
+  modal.classList.remove('hide');
+  overlay.classList.remove('hide');
+  document.body.style.overflow = 'hidden';
 
-  const btnsOpenModal = document.querySelectorAll('[data-modal]');
+  if (modalTimer) clearInterval(modalTimer);
+};
+
+const hideModal = function (modalSelector, overlaySelector) {
+  const modal = document.querySelector(modalSelector);
+  const overlay = document.querySelector(overlaySelector);
   modal.classList.add('hide');
+  overlay.classList.add('hide');
+  document.body.style.overflow = '';
+};
 
-  const showModal = function () {
-    modal.classList.remove('hide');
-    overlay.classList.remove('hide');
-    document.body.style.overflow = 'hidden';
-    clearInterval(modalTimer);
-  };
+const modal = function (
+  overlaySelector,
+  modalSelector,
+  triggerSelector,
+  modalTimer
+) {
+  const modal = document.querySelector(modalSelector);
+  const overlay = document.querySelector(overlaySelector);
 
-  const hideModal = function () {
-    modal.classList.add('hide');
-    overlay.classList.add('hide');
-    document.body.style.overflow = '';
-  };
+  const btnsOpenModal = document.querySelectorAll(triggerSelector);
+  modal.classList.add('hide');
 
   btnsOpenModal.forEach(btn => {
     btn.addEventListener('click', function () {
-      showModal();
+      showModal(modalSelector, overlaySelector, modalTimer);
     });
   });
 
   document.addEventListener('click', function (e) {
     if (e.target === modal || e.target.getAttribute('data-close') == '') {
-      hideModal();
+      hideModal(modalSelector, overlaySelector);
     }
   });
 
   document.addEventListener('keydown', function (e) {
     if (e.key === 'Escape' && !modal.classList.contains('hide')) {
-      hideModal();
+      hideModal(modalSelector, overlaySelector);
     }
   });
 
-  const modalTimer = setTimeout(showModal, 50000);
-
   const showModalByScroll = function () {
     if (window.innerHeight + window.scrollY >= document.body.offsetHeight) {
-      showModal();
+      showModal(modalSelector, overlaySelector, modalTimer);
       window.removeEventListener('scroll', showModalByScroll);
     }
   };
@@ -655,16 +669,22 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+
+const modalTimer = setTimeout(
+  () => (0,_modules_modal__WEBPACK_IMPORTED_MODULE_3__.showModal)('.modal', '.overlay', modalTimer),
+  50000
+);
+
 // TABS
 (0,_modules_tabs__WEBPACK_IMPORTED_MODULE_0__.tabs)();
 // TIMER
 (0,_modules_timer__WEBPACK_IMPORTED_MODULE_2__.timer)();
 // MODAL
-(0,_modules_modal__WEBPACK_IMPORTED_MODULE_3__.modal)();
+(0,_modules_modal__WEBPACK_IMPORTED_MODULE_3__.modal)('.modal', '.overlay', '[data-modal]', modalTimer);
 // CARDS
 (0,_modules_cards__WEBPACK_IMPORTED_MODULE_1__.cards)();
 // Forms
-(0,_modules_forms__WEBPACK_IMPORTED_MODULE_4__.forms)();
+(0,_modules_forms__WEBPACK_IMPORTED_MODULE_4__.forms)(modalTimer);
 // SLIDER
 (0,_modules_slider__WEBPACK_IMPORTED_MODULE_5__.slider)();
 // Calculator

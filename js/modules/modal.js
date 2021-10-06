@@ -1,46 +1,54 @@
-export const modal = function () {
-  const modal = document.querySelector('.modal');
-  const overlay = document.querySelector('.overlay');
+export const showModal = function (modalSelector, overlaySelector, modalTimer) {
+  const modal = document.querySelector(modalSelector);
+  const overlay = document.querySelector(overlaySelector);
+  modal.classList.remove('hide');
+  overlay.classList.remove('hide');
+  document.body.style.overflow = 'hidden';
 
-  const btnsOpenModal = document.querySelectorAll('[data-modal]');
+  if (modalTimer) clearInterval(modalTimer);
+};
+
+export const hideModal = function (modalSelector, overlaySelector) {
+  const modal = document.querySelector(modalSelector);
+  const overlay = document.querySelector(overlaySelector);
   modal.classList.add('hide');
+  overlay.classList.add('hide');
+  document.body.style.overflow = '';
+};
 
-  const showModal = function () {
-    modal.classList.remove('hide');
-    overlay.classList.remove('hide');
-    document.body.style.overflow = 'hidden';
-    clearInterval(modalTimer);
-  };
+export const modal = function (
+  overlaySelector,
+  modalSelector,
+  triggerSelector,
+  modalTimer
+) {
+  const modal = document.querySelector(modalSelector);
+  const overlay = document.querySelector(overlaySelector);
 
-  const hideModal = function () {
-    modal.classList.add('hide');
-    overlay.classList.add('hide');
-    document.body.style.overflow = '';
-  };
+  const btnsOpenModal = document.querySelectorAll(triggerSelector);
+  modal.classList.add('hide');
 
   btnsOpenModal.forEach(btn => {
     btn.addEventListener('click', function () {
-      showModal();
+      showModal(modalSelector, overlaySelector, modalTimer);
     });
   });
 
   document.addEventListener('click', function (e) {
     if (e.target === modal || e.target.getAttribute('data-close') == '') {
-      hideModal();
+      hideModal(modalSelector, overlaySelector);
     }
   });
 
   document.addEventListener('keydown', function (e) {
     if (e.key === 'Escape' && !modal.classList.contains('hide')) {
-      hideModal();
+      hideModal(modalSelector, overlaySelector);
     }
   });
 
-  const modalTimer = setTimeout(showModal, 50000);
-
   const showModalByScroll = function () {
     if (window.innerHeight + window.scrollY >= document.body.offsetHeight) {
-      showModal();
+      showModal(modalSelector, overlaySelector, modalTimer);
       window.removeEventListener('scroll', showModalByScroll);
     }
   };

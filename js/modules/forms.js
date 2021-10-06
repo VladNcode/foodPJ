@@ -1,4 +1,7 @@
-export const forms = function () {
+import { hideModal } from './modal';
+import { showModal } from './modal';
+
+export const forms = function (modalTimer) {
   const forms = document.querySelectorAll('form');
 
   const message = {
@@ -50,7 +53,7 @@ export const forms = function () {
   function showThanksModal(message) {
     const prevModalDialog = document.querySelector('.modal__dialog');
     prevModalDialog.classList.add('hide');
-    showModal();
+    showModal('.modal', '.overlay', modalTimer);
 
     const thanksModal = document.createElement('div');
     thanksModal.classList.add('modal__dialog');
@@ -67,7 +70,7 @@ export const forms = function () {
     setTimeout(function () {
       thanksModal.remove();
       prevModalDialog.classList.remove('hide');
-      hideModal();
+      hideModal('.modal', '.overlay');
     }, 4000);
   }
 };
