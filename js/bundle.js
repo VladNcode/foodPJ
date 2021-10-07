@@ -378,14 +378,14 @@ const slider = function ({
   wrapper,
   field,
 }) {
-  const slides = document.querySelectorAll('.offer__slide');
-  const slider = document.querySelector('.offer__slider');
-  const btnLeft = document.querySelector('.offer__slider-prev');
-  const btnRight = document.querySelector('.offer__slider-next');
-  const currentSlide = document.querySelector('#current');
-  const totalSlides = document.querySelector('#total');
-  const slidesWrapper = document.querySelector('.offer__slider-wrapper');
-  const slidesField = document.querySelector('.offer__slider-inner');
+  const slides = document.querySelectorAll(slide);
+  const slider = document.querySelector(container);
+  const btnLeft = document.querySelector(prevArrow);
+  const btnRight = document.querySelector(nextArrow);
+  const currentSlide = document.querySelector(currentCounter);
+  const totalSlides = document.querySelector(totalCounter);
+  const slidesWrapper = document.querySelector(wrapper);
+  const slidesField = document.querySelector(field);
   const width = window.getComputedStyle(slidesWrapper).width;
 
   slidesField.style.width = 100 * slides.length + '%';
@@ -726,7 +726,16 @@ const modalTimer = setTimeout(
 // Forms
 (0,_modules_forms__WEBPACK_IMPORTED_MODULE_4__.forms)('form', modalTimer);
 // SLIDER
-(0,_modules_slider__WEBPACK_IMPORTED_MODULE_5__.slider)();
+(0,_modules_slider__WEBPACK_IMPORTED_MODULE_5__.slider)({
+  container: '.offer__slider',
+  slide: '.offer__slide',
+  nextArrow: '.offer__slider-next',
+  prevArrow: '.offer__slider-prev',
+  currentCounter: '#current',
+  totalCounter: '#total',
+  wrapper: '.offer__slider-wrapper',
+  field: '.offer__slider-inner',
+});
 // Calculator
 (0,_modules_calculator__WEBPACK_IMPORTED_MODULE_6__.calculator)();
 

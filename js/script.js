@@ -29,6 +29,15 @@ cards();
 // Forms
 forms('form', modalTimer);
 // SLIDER
-slider();
+slider({
+  container: '.offer__slider',
+  slide: '.offer__slide',
+  nextArrow: '.offer__slider-next',
+  prevArrow: '.offer__slider-prev',
+  currentCounter: '#current',
+  totalCounter: '#total',
+  wrapper: '.offer__slider-wrapper',
+  field: '.offer__slider-inner',
+});
 // Calculator
 calculator();
