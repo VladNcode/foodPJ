@@ -14,15 +14,20 @@ const modalTimer = setTimeout(
 );
 
 // TABS
-tabs();
+tabs(
+  '.tabheader__item',
+  '.tabcontent',
+  '.tabheader__items',
+  'tabheader__item_active'
+);
 // TIMER
-timer();
+timer('.timer', '2022-06-11');
 // MODAL
 modal('.modal', '.overlay', '[data-modal]', modalTimer);
 // CARDS
 cards();
 // Forms
-forms(modalTimer);
+forms('form', modalTimer);
 // SLIDER
 slider();
 // Calculator

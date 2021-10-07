@@ -17,13 +17,18 @@ export const hideModal = function (modalSelector, overlaySelector) {
 };
 
 export const modal = function (
-  overlaySelector,
   modalSelector,
+  overlaySelector,
   triggerSelector,
   modalTimer
 ) {
   const modal = document.querySelector(modalSelector);
   const overlay = document.querySelector(overlaySelector);
+
+  function init() {
+    hideModal(modalSelector, overlaySelector);
+  }
+  init();
 
   const btnsOpenModal = document.querySelectorAll(triggerSelector);
   modal.classList.add('hide');
@@ -47,7 +52,7 @@ export const modal = function (
   });
 
   const showModalByScroll = function () {
-    if (window.innerHeight + window.scrollY >= document.body.offsetHeight) {
+    if (window.innerHeight + window.scrollY >= document.body.scrollHeight) {
       showModal(modalSelector, overlaySelector, modalTimer);
       window.removeEventListener('scroll', showModalByScroll);
     }

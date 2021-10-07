@@ -1,4 +1,13 @@
-export const slider = function () {
+export const slider = function ({
+  container,
+  slide,
+  nextArrow,
+  prevArrow,
+  totalCounter,
+  currentCounter,
+  wrapper,
+  field,
+}) {
   const slides = document.querySelectorAll('.offer__slide');
   const slider = document.querySelector('.offer__slider');
   const btnLeft = document.querySelector('.offer__slider-prev');

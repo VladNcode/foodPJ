@@ -1,3 +1,4 @@
+import { getResources } from '../services/services';
 export function cards() {
   class MenuCard {
     constructor(src, alt, title, desc, price, parentSelector, ...classes) {
@@ -42,16 +43,8 @@ export function cards() {
     }
   }
 
-  const getResources = async url => {
-    const res = await fetch(url);
-    if (!res.ok) {
-      throw new Error(`Coudn't fetch ${url}, status: ${res.status}`);
-    }
-    return await res.json();
-  };
-
-  axios.get('http://localhost:3000/menu').then(data =>
-    data.data.forEach(({ img, altimg, title, descr, price }) => {
+  getResources('http://localhost:3000/menu').then(data =>
+    data.forEach(({ img, altimg, title, descr, price }) => {
       new MenuCard(
         img,
         altimg,

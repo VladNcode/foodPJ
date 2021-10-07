@@ -1,8 +1,8 @@
 import { hideModal } from './modal';
 import { showModal } from './modal';
-
-export const forms = function (modalTimer) {
-  const forms = document.querySelectorAll('form');
+import { postData } from '../services/services';
+export const forms = function (formSelector, modalTimer) {
+  const forms = document.querySelectorAll(formSelector);
 
   const message = {
     loading: 'img/form/spinner.svg',
@@ -13,16 +13,6 @@ export const forms = function (modalTimer) {
   forms.forEach(form => {
     bindPostData(form);
   });
-
-  const postData = async (url, data) => {
-    const res = await fetch(url, {
-      method: 'POST',
-      headers: { 'Content-type': 'application/json' },
-      body: data,
-    });
-
-    return await res.json();
-  };
 
   function bindPostData(form) {
     form.addEventListener('submit', function (e) {
