@@ -28,7 +28,9 @@ export function tabs(
 
   tabsParent.addEventListener('click', function (e) {
     const target = e.target;
-    if (target && target.classList.contains(tabsSelector.slice(1))) {
+    console.log(target);
+    console.log(tabsSelector.slice(1));
+    if (target && target.classList.contains('tabheader__item')) {
       tabs.forEach((el, i) => {
         if (target == el) {
           hideTabContent();
